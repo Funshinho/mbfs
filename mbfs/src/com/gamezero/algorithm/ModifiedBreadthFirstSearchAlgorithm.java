@@ -121,7 +121,6 @@ public class ModifiedBreadthFirstSearchAlgorithm {
 				if (lastCell[0] == end[0] && lastCell[1] == end[1]
 						&& currentPath.size() == length) {
 					solutions.add(currentPath);
-					System.out.println("found solution !");
 				} else {
 
 					// Get all possible neighbors from the last cell of the
