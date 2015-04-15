@@ -32,6 +32,7 @@ public class AlgorithmTest {
 			}
 			System.out.println();
 		}
+		System.out.println("Number of solutions : " + solutions.size());
 
 	}
 
