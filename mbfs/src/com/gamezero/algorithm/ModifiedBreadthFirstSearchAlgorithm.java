@@ -110,56 +110,68 @@ public class ModifiedBreadthFirstSearchAlgorithm {
 			// Extract the first path in the queue and get the last cell in this
 			// path
 			List<int[]> currentPath = queue.poll();
-			int[] lastCell = currentPath.get(currentPath.size() - 1);
 
-			// The path is a solution if its size equals the desired length and
-			// if the last cell is the end position
-			if (lastCell[0] == end[0] && lastCell[1] == end[1]
-					&& currentPath.size() == length) {
-				solutions.add(currentPath);
-			} else {
+			// Check that the current path can be a solution
+			if (currentPath.size() <= length) {
+				int[] lastCell = currentPath.get(currentPath.size() - 1);
 
-				// Get all possible neighbors from the last cell of the current
-				// path
-				int newX = 0;
-				int newY = 0;
-				for (Direction dir : Direction.values()) {
+				// The path is a solution if its size equals the desired length
+				// and
+				// if the last cell is the end position
+				if (lastCell[0] == end[0] && lastCell[1] == end[1]
+						&& currentPath.size() == length) {
+					solutions.add(currentPath);
+					System.out.println("found solution !");
+				} else {
 
-					int x = lastCell[0];
-					int y = lastCell[1];
+					// Get all possible neighbors from the last cell of the
+					// current
+					// path
+					int newX = 0;
+					int newY = 0;
+					for (Direction dir : Direction.values()) {
 
-					switch (dir) {
-					case UP:
-						newX = x;
-						newY = y - 1;
-						break;
-					case DOWN:
-						newX = x;
-						newY = y + 1;
-						break;
-					case LEFT:
-						newX = x - 1;
-						newY = y;
-						break;
-					case RIGHT:
-						newX = x + 1;
-						newY = y;
-					}
+						int x = lastCell[0];
+						int y = lastCell[1];
 
-					int[] newCell = new int[] { newX, newY };
+						switch (dir) {
+						case UP:
+							newX = x;
+							newY = y - 1;
+							break;
+						case DOWN:
+							newX = x;
+							newY = y + 1;
+							break;
+						case LEFT:
+							newX = x - 1;
+							newY = y;
+							break;
+						case RIGHT:
+							newX = x + 1;
+							newY = y;
+						}
 
-					// Check that the new cell is within the grid and that the
-					// current path does
-					// not already contain it (to avoid loop)
-					if (newX >= 0 && newX < this.gridWidth && newY >= 0
-							&& newY < this.gridHeight
-							&& !contains(currentPath, newCell)) {
+						int[] newCell = new int[] { newX, newY };
 
-						// Add the neighbor to the current path and then update
-						// the queue with this new path
-						List<int[]> newPath = new ArrayList<int[]>(currentPath);
-						newPath.add(newCell);
-						queue.add(newPath);
+						// Check that the new cell is within the grid and that
+						// the current path does
+						// not already contain it (to avoid loops)
+						// Also check that the path won't be longer than the
+						// desired length
+						if (newX >= 0 && newX < this.gridWidth && newY >= 0
+								&& newY < this.gridHeight
+								&& !contains(currentPath, newCell)
+								&& currentPath.size() < length) {
+
+							// Add the neighbor to the current path and then
+							// update
+							// the queue with this new path
+							List<int[]> newPath = new ArrayList<int[]>(
+									currentPath);
+							newPath.add(newCell);
+							queue.add(newPath);
+						}
 					}
 				}
 			}
